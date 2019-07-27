@@ -1,0 +1,26 @@
+0 info it worked if it ends with ok
+1 verbose cli [ '/usr/bin/nodejs', '/usr/bin/npm', 'run', 'dev' ]
+2 info using npm@1.4.21
+3 info using node@v0.10.29
+4 verbose run-script [ 'predev', 'dev', 'postdev' ]
+5 info predev presence@0.0.0
+6 info dev presence@0.0.0
+7 verbose unsafe-perm in lifecycle true
+8 info presence@0.0.0 Failed to exec dev script
+9 error presence@0.0.0 dev: `nodemon server.js`
+9 error Exit status 8
+10 error Failed at the presence@0.0.0 dev script.
+10 error This is most likely a problem with the presence package,
+10 error not with npm itself.
+10 error Tell the author that this fails on your system:
+10 error     nodemon server.js
+10 error You can get their info via:
+10 error     npm owner ls presence
+10 error There is likely additional logging output above.
+11 error System Linux 4.9.35+
+12 error command "/usr/bin/nodejs" "/usr/bin/npm" "run" "dev"
+13 error cwd /home/dkingsbury/dev/node/presence
+14 error node -v v0.10.29
+15 error npm -v 1.4.21
+16 error code ELIFECYCLE
+17 verbose exit [ 1, true ]

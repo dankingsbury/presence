@@ -1,0 +1,39 @@
+{
+  "name": "presence",
+  "version": "0.1.0",
+  "description": "Local presence tracking backend",
+  "main": "server.js",
+  "scripts": {
+    "start": "nodejs server.js",
+    "nodemon": "nodemon server.js",
+    "nodemon-all": "nodemon server.js -e js,html,hbs,json",
+    "stop": "sudo systemctl stop presence",
+    "go": "sudo systemctl start presence",
+    "restart": "sudo systemctl restart presence",
+    "status": "systemctl status presence",
+    "check": "nodejs -c server.js",
+    "test0": "echo \"Error: no test specified\" && exit 1",
+    "test": "curl http://localhost:3000"
+  },
+  "author": "Dan Kingsbury",
+  "license": "MIT",
+  "dependencies": {
+    "body-parser": "^1.18.3",
+    "cookie-parser": "^1.4.3",
+    "dotenv": "^6.0.0",
+    "express": "^4.16.3",
+    "express-session": "^1.15.6",
+    "http-errors": "^1.7.1",
+    "moment": "^2.22.2",
+    "morgan": "^1.9.1",
+    "mustache-express": "^1.2.7",
+    "nedb": "^1.8.0",
+    "passport": "^0.4.0"
+  },
+  "devDependencies": {
+    "nodemon": "^1.18.4"
+  },
+  "engines": {
+    "node": ">=0.10.29 <0.12"
+  }
+}

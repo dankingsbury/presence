@@ -1,0 +1,91 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+ <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+    <!-- Bootstrap core CSS -->
+    <!-- <link href="../../dist/css/bootstrap.min.css" rel="stylesheet"> -->
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" crossorigin="anonymous"></script>
+    
+    <!-- Custom styles for this template 
+    <link href="/dashboard.css" rel="stylesheet">
+    -->
+
+<style>
+.card {margin-right: 10px;}
+</style>
+
+<title>{{page-title}}</title>
+</head>
+
+<body>
+
+{{>_nav}}
+
+    <div class="container container-fluid">
+      <div class="row">
+        <h1>{{header}}</h1>
+        <p>{{msg}}</p>
+      </div>
+        
+      <div class="row">
+        <ul id="list">
+           {{#entries}}
+               {{>_presence-entry}}
+           {{/entries}}
+        </ul>
+      </div>
+      
+      <div class="row">
+           {{#metrics}}
+               {{>_metric-entry}}
+           {{/metrics}}
+      </div>
+ 
+      {{#currentProfiles?}}       
+      <div class="row">
+        {{#currentProfiles}}
+            {{>_profile-entry}}        
+        {{/currentProfiles}}
+      </div>
+      
+      
+      {{>_progress-demo}}
+    
+      {{/currentProfiles?}}
+
+   </div>
+    
+  </div>
+
+
+{{>_site-page-footer}}
+
+<script>
+try{
+  console.log("hello");
+
+  $("#list a").css("color","blue").on("click", event => {
+    event.preventDefault();
+    try{
+      $(this).css("background-color","red");
+      alert($(event.target).closest("li").attr("id"));
+    }catch(e){alert(e)}
+  });
+
+  $("#check-jquery").on("click", event => {
+    alert("yep!");
+  });
+
+}catch(e){alert(e)}
+
+
+</script>
+
+</body>
+</html>

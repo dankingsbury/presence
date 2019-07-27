@@ -1,0 +1,21 @@
+<!-- <li>{{name}}</li> -->
+{{#mac}}
+<li id="{{_id}}"><a>{{mac}} <b>{{status}}</b> <em>{{ts}}</em>({{activeSpan.interval}})</a></li>
+{{/mac}}
+
+{{#snapshot}}
+  <li>{{ts}} {{status}}
+    <ul>
+      {{#entries}}
+        <li id="{{_id}}"><a>{{mac}} <b>{{status}}</b>({{activeSpan.interval}})</a></li>
+      {{/entries}}    
+    </ul>
+  </li> 
+{{/snapshot}}
+
+
+
+
+
+
+

@@ -1,0 +1,236 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+ <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+    <!-- Bootstrap core CSS -->
+    <!-- <link href="../../dist/css/bootstrap.min.css" rel="stylesheet"> -->
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" crossorigin="anonymous"></script>
+    
+<!-- <script src="https://unpkg.com/axios/dist/axios.min.js"></script> -->
+    
+ <script>
+   //function log(s){console.log(s);}
+   function log(s = ''){$("#loglist").append(`${s}\n`);console.log(s);};
+   const trim = (s = '') => (s.replace(/^\s+|\s+$/g,''));
+   
+   function genData() {
+    return $('#presence').val().trim();
+   }
+ </script>
+
+</head>
+
+<body>
+
+  {{>_nav}}
+  
+  <div class="container-fluid">
+  
+    <h1>Post Presence</h1>
+    <p><script>document.write((new Date()).toString());</script></p>
+    
+
+    
+    <textarea id="presence" class="input" type="text/plain" rows="15" cols="80"></textarea>
+
+    <nav class="navbar navbar-light bg-light fixed-bottom">
+      <button type="button" class="btn btn-danger nav-item" id="clear-all">Clear Database</button>
+      <button type="button" class="btn btn-secondary nav-item" id="previous-data">Previous Data</button>
+      <button type="button" class="btn btn-secondary nav-item" id="interim-data">Interim Data</button>      
+      <button type="button" class="btn btn-secondary nav-item" id="now-data">Now Data</button>            
+      <button type="button" class="btn btn-primary nav-item" id="post-presence">Post Presence</button>
+    </nav>
+    
+    <pre id="loglist"></pre>
+    
+  </div>
+
+
+
+
+
+<script type="text/javascript">
+
+$("#JQUERYpost-presence").on("click", event => {
+event.preventDefault();
+try{
+  //log('presence=' + ($('#presence').text().trim()));
+  $.ajax('/presence', {
+    method: 'POST',
+    data: {api_key: "superNoggin500!", presence: genData() },
+    cache: false,
+    headers: { 
+      "cache-control": "no-cache",
+	    "Content-Type": "application/x-www-form-urlencoded",
+	    //"Content-Type": "application/json",
+      "Authorization": "superNoggin500!"
+    },
+    success: (data,textStatus,jqXhr) => {log(`success ${textStatus}`);}
+  })
+  .done( (data,textStatus,jqXhr) => {
+  try{
+    log('POST /presence');
+    //    log(JSON.parse(this.responseText));
+    log(`done ${textStatus} ${JSON.stringify(data)}`);
+      }catch(e){alert(e);}
+  })
+  .fail( (jqXhr,textStatus,err) => {
+    log( `fail ${textStatus} ${JSON.stringify(err)}` );
+  })
+  .catch(()=>{
+    log(`catch`);
+  })
+  .always(function() {
+    log( "complete" );
+  });
+  
+  }catch(e){alert(e);}
+});
+
+$("#post-presence").on("click", event => {
+  event.preventDefault();
+  log("POST /presence");
+  //log('presence=' + ($('#presence').text().trim()));
+  
+  try{
+    fetch('/presence', {
+      method: 'post',
+      credentials: 'same-origin',
+      body: JSON.stringify({api_key: "superNoggin500!", presence: genData() }),
+      headers: {"Content-Type": "application/json",
+        		    "Authorization": "superNoggin500!",
+        		    "X-Requested-With": "XMLHttpRequest"
+      }
+    })
+    .then(handleErrors)
+    .then(response => {
+        log(`response ${response.status} ${response.statusText}`); 
+        return response;
+    })
+    //.then(handleJSON)
+    .then(handleData)
+    .then(response => {
+      log(`then ${response}`);      
+      //return response;
+    })
+    .catch((error) => {
+     // if (error) 
+     log(`catch ${JSON.stringify(error)}`);
+    })
+    .finally(r => {log(`finally ${r}`);})
+    ;
+  }catch(e){alert(e);}
+});
+
+function handleData(response) { return response.text(); }
+function handleJSON(response) { return response.json(); }
+
+function handleErrors(response) {
+    if (!response.ok) { throw Error(response.statusText); }
+    return response;
+}
+
+$("#AXIOSpost-presence").on("click", (event) => {
+  event.preventDefault();
+  log("POST /presence");
+  //log('presence=' + ($('#presence').text().trim()));
+  
+  try{
+    axios('/presence', {
+      method: 'post',
+      data: {api_key: "superNoggin500!", presence: genData() },
+      headers: {"Content-Type": "application/json",
+        		    "Authorization": "superNoggin500!"}
+    })
+  //  .then(response => JSON.stringify(response))
+    .then(response => {
+      log(`then ${JSON.stringify(response)}`);      
+      log(`then ${response.status} ${response.statusText}`);
+    })
+    .catch(error => {
+      if (error) log(`catch ${JSON.stringify(error)}`);
+      //alert(`There has been a problem with your fetch operation:\n ${JSON.stringify(error)}`);
+    })
+    .then(r => {log(`finally ${r}`);})
+    ;
+  }catch(e){alert(e);}
+});
+
+
+$("#clear-all").on("click", event => {
+  event.preventDefault();
+  
+  if (confirm("Really clear all data from server?")) {
+  
+    log("POST /clear-all");
+  
+    try{
+      fetch('/clear-all', {
+        method: 'post',
+        credentials: 'same-origin',
+        headers: {"Content-Type": "application/json",
+          		    "Authorization": "superNoggin500!",
+          		    "X-Requested-With": "XMLHttpRequest"
+        }
+      })
+      .then(handleErrors)
+    }catch(e){alert(e);}
+  }
+});
+
+
+$("#previous-data").on("click", loadPreviousData);
+$("#interim-data").on("click", loadInterimData);
+$("#now-data").on("click", loadNowData);
+function loadPreviousData() {
+  $('#presence').text(
+    `80:ED:2C:5D:10:4C 
+    30:59:B7:E0:49:B1 
+    00:11:D9:34:F8:18 
+    B8:27:EB:07:E1:62 
+
+
+    88:87:17:49:E8:B8`
+    .split(/\s+/)
+    .map(s => `${s} ONLINE ${(new Date(new Date()-2880*60000)).toISOString()}`)
+    .join("\n"));
+ }
+ function loadInterimData() {
+  $('#presence').text(
+    `80:ED:2C:5D:10:4C 
+    30:59:B7:E0:49:B1 
+    00:11:D9:34:F8:18 
+    B8:27:EB:07:E1:62 
+
+
+    88:87:17:49:E8:B8`
+    .split(/\s+/)
+    .map(s => `${s} ONLINE ${(new Date(new Date()-1440*60000)).toISOString()}`)
+    .join("\n"));
+ }
+ function loadNowData() {
+  $('#presence').text(
+    `80:ED:2C:5D:10:4C 
+    30:59:B7:E0:49:B1 
+    00:11:D9:34:F8:18 
+
+    18:B4:30:09:FA:9D 
+    B8:27:EB:F5:86:8B 
+    88:87:17:49:E8:B8`
+    .split(/\s+/)
+    .map(s => `${s} ONLINE ${(new Date()).toISOString()}`)
+    .join("\n"));
+ }
+ 
+ $(loadPreviousData);
+ 
+</script>
+
+</body>
+</html>
